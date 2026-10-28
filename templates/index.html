@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ClimaSmart: el clima actual y consejos inteligentes para tu día."
+    />
+    <title>ClimaSmart</title>
+    <!-- url_for le pide a Flask la ruta correcta del archivo dentro de /static -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <main class="app">
+      <header class="encabezado">
+        <h1>ClimaSmart</h1>
+        <p>Mirá el clima de tu ciudad y recibí un consejo para tu día.</p>
+      </header>
+
+      <!-- Un <form> permite buscar con el botón Y con la tecla Enter, sin código extra -->
+      <form id="searchForm" class="buscador" autocomplete="off">
+        <label for="cityInput" class="solo-lectores">Ciudad</label>
+        <input
+          type="text"
+          id="cityInput"
+          name="city"
+          placeholder="Escribí una ciudad, por ej. Mar del Plata"
+          maxlength="100"
+        />
+        <button type="submit" id="btnSearch" class="boton boton-principal">
+          Buscar
+        </button>
+        <button type="button" id="btnGeo" class="boton boton-secundario">
+          Usar mi ubicación
+        </button>
+      </form>
+
+      <!-- Mensaje de carga. aria-live hace que los lectores de pantalla lo anuncien -->
+      <p id="loading" class="estado hidden" role="status" aria-live="polite">
+        <span class="spinner" aria-hidden="true"></span>
+        Consultando el clima y pidiendo un consejo a la IA…
+      </p>
+
+      <!-- Mensaje de error (reemplaza a los alert() molestos) -->
+      <p id="errorBox" class="error hidden" role="alert"></p>
+
+      <!-- Panel de resultados -->
+      <!-- Panel de resultados: en PC son 2 columnas, en celular se apilan -->
+      <section id="weatherCard" class="tarjeta hidden" aria-live="polite">
+        <!-- Columna izquierda: datos del clima -->
+        <div class="clima-panel">
+          <div class="tarjeta-principal">
+            <span id="weatherIcon" class="icono" aria-hidden="true">🌡️</span>
+            <div>
+              <h2 id="cityName">--</h2>
+              <p id="description" class="descripcion">--</p>
+            </div>
+            <p class="temperatura">
+              <span id="temp">--</span><span class="unidad">°C</span>
+            </p>
+          </div>
+          <dl class="datos">
+            <div>
+              <dt>Sensación térmica</dt>
+              <dd><span id="feelsLike">--</span> °C</dd>
+            </div>
+            <div>
+              <dt>Humedad</dt>
+              <dd><span id="humidity">--</span> %</dd>
+            </div>
+          </dl>
+        </div>
+        <!-- Columna derecha: consejo de la IA -->
+        <div id="adviceBox" class="consejo">
+          <h3>Consejo para tu día</h3>
+          <p id="iaAdvice">--</p>
+          <p id="adviceSource" class="fuente"></p>
+        </div>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
